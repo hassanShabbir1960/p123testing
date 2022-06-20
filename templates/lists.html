@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<h2>Lists </h2>
+  
+  <h3> Select a date range </h3>
+  <form action="/lists" method='POST' name="myform">
+      {{ form.csrt_token }}
+      {{ form.startdate.label }} {{form.startdate(class='datepicker')}} {{form.hidden_tag()}}
+      {{ form.enddate.label }} {{form.enddate(class='datepicker')}} {{form.hidden_tag()}}
+      <p>
+      {{form.submit()}}
+      </p>
+  </form>
+  {% block script %} {% endblock %}
+
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+
+  <table>
+    <tr>
+        {% for col in column_names %}
+        <th>{{col}}</th>
+        {% endfor %}
+    </tr>
+    {% for row in row_data %}
+    <tr>
+        {% for col, row_ in zip(column_names, row) %}
+        {% if col == link_column %}
+        <td>
+            <form method="POST" action="modal">
+       
+                <button type="submit" name="submit_button" value= {{row_}} >
+                   <strong>+</strong>
+                </button>
+        
+            </form>
+
+            
+        </td>
+        {% else %}
+        <td>{{row_}}</td>
+        {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+
+</table>
+
+
+{% endblock %}
